@@ -59,6 +59,25 @@ class BasicRNN:
     return tf.summary.merge_all()
 
 
+class DynamicRNN(BasicRNN):
+  '''
+  RNN using dynamic_rnn in Tensorflow
+  '''
+  def __init__(self, n_in, maxlen, n_hidden, n_out):
+    super(DynamicRNN, self).__init__(n_in, maxlen, n_hidden, n_out)
+    self.name = 'DynamicRNN'
+
+  def inference(self, x, batch_size):
+    cell = tf.contrib.rnn.BasicLSTMCell(self.n_hidden)
+    initial_state = cell.zero_state(batch_size, tf.float32)
+    outputs, state = tf.nn.dynamic_rnn(cell, x, initial_state=initial_state)
+
+    output = outputs[:, self.maxlen-1, :]
+
+    y = tf.nn.softmax(tf.matmul(output, self.W) + self.b)
+    return y
+
+
 class LSTM(BasicRNN):
   '''
   RNN with long-short term memory

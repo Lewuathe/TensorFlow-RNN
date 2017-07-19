@@ -12,6 +12,7 @@ from rnns import LSTM
 from rnns import LayerNormBasicLSTM
 from rnns import GRU
 from rnns import BiRNN
+from rnns import DynamicRNN
 
 MNIST_WIDTH = 28
 MNIST_HEIGHT = 28
@@ -81,6 +82,8 @@ def main(argv):
         model = GRU(MNIST_HEIGHT, MNIST_WIDTH, FLAGS.hidden_size, n_out)
     elif FLAGS.model_type == 'birnn':
         model = BiRNN(MNIST_HEIGHT, MNIST_WIDTH, FLAGS.hidden_size, n_out)
+    elif FLAGS.model_type == 'dynamic_rnn':
+        model = DynamicRNN(MNIST_HEIGHT, MNIST_WIDTH, FLAGS.hidden_size, n_out)
     else:
         raise Error("Invalid model type")
 
